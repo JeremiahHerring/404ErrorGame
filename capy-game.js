@@ -1,19 +1,16 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
 // Define game objects
 const capy = {
     x: 50,
     y: canvas.height - 60,
     width: 50,
     height: 50,
-    jumpHeight: -500,
+    jumpHeight: 0.20 * canvas.height,
     isJumping: false,
     jumpSpeed: 5,
-    jumpStartY: 0, // Initial Y Position
+    jumpStartY: canvas.y, // Initial Y Position
 };
 
 const ground = {
@@ -70,11 +67,6 @@ function gameLoop() {
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
-
-    window.addEventListener('resize', () => {
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
-    });
 }
 
 // Handle keyboard input (e.g., spacebar for jumping)
