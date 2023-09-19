@@ -2,10 +2,15 @@ body {
     margin: 0;
     overflow: hidden;
 }
-.canvas {
-    position: relative;
-    display: block;
-    background-color: #f7f7f7;
-    margin: 0 auto;
+.outer-container {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    margin: auto;
+    margin-top: 100px;
+    background-color: blue;
+}
+canvas {
+    background-color: orange;
 }
 

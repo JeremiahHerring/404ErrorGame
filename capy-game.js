@@ -1,19 +1,17 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
 // Define game objects
 const capy = {
     x: 50,
     y: canvas.height - 60,
+    // maybe have y as:
+    // canvas.height - capy.height - ground.y
     width: 50,
     height: 50,
-    jumpHeight: -500,
+    jumpHeight: 0.35* canvas.height, // The max point height on the canvas where the top of the capy can touch
     isJumping: false,
     jumpSpeed: 5,
-    jumpStartY: 0, // Initial Y Position
 };
 
 const ground = {
@@ -40,7 +38,7 @@ function gameLoop() {
     if (capy.isJumping) {
         capy.y -= capy.jumpSpeed;
         // Check if the jump has reached its peak
-        if (capy.y <= capy.jumpStartY - capy.jumpHeight) {
+        if (capy.y <= capy.jumpHeight) {
             capy.isJumping = false;
             // If so, stop jumping and start falling
         }
@@ -70,11 +68,6 @@ function gameLoop() {
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
-
-    window.addEventListener('resize', () => {
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
-    });
 }
 
 // Handle keyboard input (e.g., spacebar for jumping)
