@@ -9,7 +9,7 @@ const capy = {
     // canvas.height - capy.height - ground.y
     width: 50,
     height: 50,
-    jumpHeight: 0.35* canvas.height, // The max point height on the canvas where the top of the capy can touch
+    jumpHeight: 0.35 * canvas.height, // The max point height on the canvas where the top of the capy can touch
     isJumping: false,
     jumpSpeed: 5,
 };
