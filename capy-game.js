@@ -6,16 +6,21 @@ const capy = {
     x: 50,
     y: canvas.height - 60,
     // maybe have y as:
-    // canvas.height - capy.height - ground.y
+    // canvas.height - capy.height - ground.height
     width: 50,
     height: 50,
+    // maybe for height and width:
+    // width: canvas.width / 12,
+    // height: canvas.height / 6,
     jumpHeight: 0.35 * canvas.height, // The max point height on the canvas where the top of the capy can touch
     isJumping: false,
     jumpSpeed: 5,
 };
 
 const ground = {
-    y: canvas.height - 10,
+    height: 10,
+    //y: canvas.height - ground.height,
+    y: canvas.height - 10
 };
 
 const camera = {
@@ -88,6 +93,23 @@ document.addEventListener('keydown', (event) => {
         }
     }
 });
+
+// resize canvas based on screen size
+window.addEventListener("resize", () => {
+    if (window.innerWidth >= 667) {
+        canvas.width = 600;
+        canvas.height = 300;
+    } else if (window.innerWidth >= 500) {
+        canvas.width = 400;
+        canvas.height = 200;
+    } else if (window.innerWidth >= 300) {
+        canvas.width = 250;
+        canvas.height = 125;
+    } else {
+        canvas.width = 180;
+        canvas.height = 90;
+    }
+})
 
 // Draw the capy
 function drawCapybara() {
