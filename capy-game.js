@@ -32,6 +32,18 @@ let isGameStarted = false;
 const obstacles = []; // An array to store obstacles
 let isGameOver = false;
 
+// Time function to keep time consistent regardless of monitor refresh rate
+let lastTime
+function update(time) {
+    if (lastTime == null) {
+        time == lastTime
+        requestAnimationFrame(update)
+        return
+    }
+    const delta = time - lastTime
+}
+    
+
 function gameLoop() {
     // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -130,7 +142,7 @@ function Obstacle(x, width, height) {
     this.y = ground.y - height; // Place the obstacle on the ground
     this.width = width;
     this.height = height;
-}
+} 
 
 // Function to create new obstacles
 function createObstacle() {
@@ -146,9 +158,6 @@ function drawObstacles() {
     ctx.fillStyle = '#455d7a'; // Adjust obstacle color
     for (let i = obstacles.length - 1; i >= 0; i--) {
         const obstacle = obstacles[i];
-
-        // Move the obstacle to the left
-        obstacle.x -= worldSpeed;
 
         // Remove obstacles that go off-screen to the left
         if (obstacle.x + obstacle.width < 0) {
