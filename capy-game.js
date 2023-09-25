@@ -7,11 +7,8 @@ const capy = {
     y: canvas.height - 60,
     // maybe have y as:
     // canvas.height - capy.height - ground.height
-    width: 50,
-    height: 50,
-    // maybe for height and width:
-    // width: canvas.width / 12,
-    // height: canvas.height / 6,
+    width: 40,
+    height: 40,
     jumpHeight: 0.35 * canvas.height, // The max point height on the canvas where the top of the capy can touch
     isJumping: false,
     jumpSpeed: 5,
@@ -19,7 +16,6 @@ const capy = {
 
 const ground = {
     height: 10,
-    //y: canvas.height - ground.height,
     y: canvas.height - 10
 };
 
@@ -98,16 +94,12 @@ document.addEventListener('keydown', (event) => {
 window.addEventListener("resize", () => {
     if (window.innerWidth >= 667) {
         canvas.width = 600;
-        canvas.height = 300;
     } else if (window.innerWidth >= 500) {
         canvas.width = 400;
-        canvas.height = 200;
     } else if (window.innerWidth >= 300) {
         canvas.width = 250;
-        canvas.height = 125;
     } else {
         canvas.width = 180;
-        canvas.height = 90;
     }
 })
 
