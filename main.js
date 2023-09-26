@@ -1,6 +1,7 @@
 import { Capy } from './capy.js';
 import { InputHandler } from './input.js';
 import { Background } from './background.js';
+import { GroundMob, FlyingMob } from './mobs.js';
 
 // LOAD event: Javascript waits for all dependent resources such as stylsheets 
 // and images to be fully loaded and available before it runs
@@ -16,22 +17,47 @@ window.addEventListener('load', function(){
             this.width = width;
             this.height = height;
             this.groundMargin = 30;
-            this.speed = 3;
+            this.speed = 0;
+            this.maxSpeed = 3;
             this.background = new Background(this);
             this.capy = new Capy(this);
             this.input = new InputHandler();
-        
+            this.mobs = [];
+            this.mobTimer = 0;
+            this.mobInterval = 1000;
     
         }
         // Run forever animation frame
         update(delta){
             this.background.update()
             this.capy.update(this.input.keys, delta);
+            // Handle Mobs
+            if (this.mobTimer > this.mobInterval){
+                this.addMob();
+                this.mobTimer = 0;
+            } else {
+                this.mobTimer += delta;
+            }
+            // .forEach() method executres a provided function once for each array element
+            this.mobs.forEach(mob => {
+                mob.update(delta);
+                if (mob.markedForDeletion) this.mobs.splice(this.mobs.indexOf(mob), 1);
+
+            })
+
         }
         // Draw images, score, and so on
         draw(context){
             this.background.draw(context)
             this.capy.draw(context);
+            this.mobs.forEach(mob => {
+                mob.draw(context);
+            })
+        }
+        addMob(){
+            if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this));
+            this.mobs.push(new FlyingMob(this))
+            console.log(this.mobs)
         }
     }
 

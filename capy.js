@@ -1,4 +1,4 @@
-import { Sitting, Running, Jumping, Falling } from './capyStates.js'
+import { Sitting, Walking, Jumping, Falling } from './capyStates.js'
 
 export class Capy {
     constructor(game){
@@ -19,7 +19,7 @@ export class Capy {
         this.maxSpeed = 10;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this)];
+        this.states = [new Sitting(this), new Walking(this), new Jumping(this), new Falling(this)];
         this.currentState = this.states[0]; // points to index within this.states
         this.currentState.enter(); // activate initial default state
     }
@@ -53,7 +53,6 @@ export class Capy {
 
     }
     draw(context){
-
         context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
     }
     onGround(){
@@ -61,9 +60,10 @@ export class Capy {
         return this.y >= this.game.height - this.height - this.game.groundMargin;
     }
     // Allows us to switch Capy between states
-    setState(state){
-        this.currentState = this.states[state] 
-        this.currentState.enter()
+    setState(state, speed){
+        this.currentState = this.states[state];
+        this.game.speed = this.game.maxSpeed * speed;
+        this.currentState.enter();
     }
 }
 
