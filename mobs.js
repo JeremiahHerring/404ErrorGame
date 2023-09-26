@@ -69,7 +69,7 @@ export class FlyingMob extends Mob {
 
 // STILL TRYING TO IMPLEMENT A GROUND MOB HERE (CAN BE STATIONARY OR NOT STATIONARY)
 
-// export class GroundMob extends Mob {
+export class GroundMob extends Mob {
 //     constructor(game){
 //         super();
 //         this.game = game;
@@ -83,5 +83,5 @@ export class FlyingMob extends Mob {
 //         this.maxFrame = 5;
 //     }
     
-// }
+}
 
