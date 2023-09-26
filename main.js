@@ -1,7 +1,7 @@
 import { Capy } from './capy.js';
 import { InputHandler } from './input.js';
 import { Background } from './background.js';
-import { GroundMob, FlyingMob } from './mobs.js';
+import { GroundMob, FlyingMob, Hedgehog } from './mobs.js';
 
 // LOAD event: Javascript waits for all dependent resources such as stylsheets 
 // and images to be fully loaded and available before it runs
@@ -55,7 +55,7 @@ window.addEventListener('load', function(){
             })
         }
         addMob(){
-            if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this));
+            if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
             this.mobs.push(new FlyingMob(this))
             console.log(this.mobs)
         }
