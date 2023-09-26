@@ -23,6 +23,6 @@
     display: none;
 }
 
-#layer1, #layer2, #layer3, #layer4, #wolf, #snake, #hedgehog, #bee, #mantis, #wizard {
+#layer1, #layer2, #layer3, #layer4, #wolf, #snake, #hedgehog, #bee, #mantis, #wizard, #wolf-reverse{
     display: none;
 }
