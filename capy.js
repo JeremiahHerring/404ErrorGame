@@ -3,12 +3,10 @@ import { Sitting, Running, Jumping, Falling } from './capyStates.js'
 export class Capy {
     constructor(game){
         this.game = game;
-        this.width = 100;
-        this.height = 100;
+        this.width = 64;
+        this.height = 42.5;
         this.x = 0;
         this.image = document.getElementById('capy')
-        this.frameX = 0;
-        this.frameY = 0; 
         this.maxFrame;
         this.fps = 20
         this.frameInterval = 1000/this.fps; 
@@ -16,6 +14,8 @@ export class Capy {
         // Canvas.height - this.height
         this.y = this.game.height - this.height - this.game.groundMargin;
         this.speed = 0;
+        this.frameX = 0;
+        this.frameY = 0;
         this.maxSpeed = 10;
         this.speedY = 0;
         this.gravity = 1;
@@ -53,8 +53,7 @@ export class Capy {
 
     }
     draw(context){
-        context.fillStyle = 'red'
-        context.fillRect(this.x, this.y, this.width, this.height)
+
         context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
     }
     onGround(){

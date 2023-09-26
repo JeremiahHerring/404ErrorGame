@@ -19,7 +19,7 @@ export class Sitting extends State {  // Child Class (sub class)
     }
     enter(){
         this.frameX = 0;
-        this.capy.maxFrame = 4;
+        this.capy.maxFrame = 7;
         this.capy.frameY = 5;
     }
     // Switch the capy into different states
@@ -30,7 +30,7 @@ export class Sitting extends State {  // Child Class (sub class)
         } 
     }
 }
-
+// each row is 1.5 so if you want to a specific row then do h
 export class Running extends State {  // Child Class (sub class)
     constructor(capy){
         super('RUNNING')        
@@ -38,8 +38,8 @@ export class Running extends State {  // Child Class (sub class)
     }
     enter(){
         this.frameX = 0;
-        this.capy.maxFrame = 8;
-        this.capy.frameY = 3;
+        this.capy.maxFrame = 7;
+        this.capy.frameY = 12.5;
     }
     // Switch the capy into different states
     handleInput(input){
@@ -59,8 +59,8 @@ export class Jumping extends State {  // Child Class (sub class)
     enter(){
         if (this.capy.onGround()) this.capy.speedY -= 25;
         this.frameX = 0;
-        this.capy.maxFrame = 6;
-        this.capy.frameY = 1;
+        this.capy.maxFrame = 2;
+        this.capy.frameY = 5;
     }
     // Switch the capy into different states
     handleInput(input){
@@ -73,13 +73,13 @@ export class Jumping extends State {  // Child Class (sub class)
 
 export class Falling extends State {  // Child Class (sub class)
     constructor(capy){
-        super('Falling')        
+        super('FALLING')        
         this.capy = capy
     }
     enter(){
         this.frameX = 0;
-        this.capy.maxFrame = 6;
-        this.capy.frameY = 2;
+        this.capy.maxFrame = 3.0;
+        this.capy.frameY = 9.5;
     }
     // Switch the capy into different states
     handleInput(input){

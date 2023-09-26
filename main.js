@@ -15,7 +15,7 @@ window.addEventListener('load', function(){
         constructor(width, height){
             this.width = width;
             this.height = height;
-            this.groundMargin = 50;
+            this.groundMargin = 30;
             this.speed = 3;
             this.background = new Background(this);
             this.capy = new Capy(this);
