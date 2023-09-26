@@ -70,18 +70,21 @@ export class FlyingMob extends Mob {
 // STILL TRYING TO IMPLEMENT A GROUND MOB HERE (CAN BE STATIONARY OR NOT STATIONARY)
 
 export class GroundMob extends Mob {
-//     constructor(game){
-//         super();
-//         this.game = game;
-//         this.width = 19;
-//         this.height = 18;
-//         this.x = this.game.width;
-//         this.y = this.game.height - this.height - this.game.groundMargin;
-//         this.image = document.getElementById('');
-//         this.speedX = 0;
-//         this.speedY = 0;
-//         this.maxFrame = 5;
-//     }
+    constructor(game){
+        super();
+        this.game = game;
+        this.width = 24;
+        this.height = 25;
+        this.x = this.game.width;
+        this.y = this.game.height - this.height - this.game.groundMargin;
+        this.image = document.getElementById('hedgehog');
+        this.speedX = 2
+        this.speedY = 0;
+        this.maxFrame = 1;
+    }
+
+
+
     
 }
 
