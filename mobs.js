@@ -78,7 +78,7 @@ export class GroundMob extends Mob {
         this.x = this.game.width;
         this.y = this.game.height - this.height - this.game.groundMargin;
         this.image = document.getElementById('hedgehog');
-        this.speedX = 2
+        this.speedX = 2;
         this.speedY = 0;
         this.maxFrame = 1;
     }
