@@ -1,4 +1,4 @@
-import { Sitting, Walking, Jumping, Falling } from './capyStates.js'
+import { Sitting, Walking, Jumping, Falling, Charging } from './capyStates.js'
 
 export class Capy {
     constructor(game){
@@ -19,12 +19,13 @@ export class Capy {
         this.maxSpeed = 10;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Sitting(this), new Walking(this), new Jumping(this), new Falling(this)];
+        this.states = [new Sitting(this), new Walking(this), new Jumping(this), new Falling(this), new Charging(this)];
         this.currentState = this.states[0]; // points to index within this.states
         this.currentState.enter(); // activate initial default state
     }
 
     update(input, delta){
+        this.checkCollision();
         this.currentState.handleInput(input)
         // Horizontal movement
         this.x += this.speed;
@@ -53,6 +54,7 @@ export class Capy {
 
     }
     draw(context){
+        if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
         context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
     }
     onGround(){
@@ -64,6 +66,21 @@ export class Capy {
         this.currentState = this.states[state];
         this.game.speed = this.game.maxSpeed * speed;
         this.currentState.enter();
+    }
+    checkCollision(){
+        this.game.mobs.forEach(mob => {
+            if (
+                // collision detected
+                mob.x < this.x + this.width && 
+                mob.x + mob.width > this.x && 
+                mob.y < this.y + this.height && 
+                mob.y + mob.height > this.y
+            ){ mob.markedForDeletion = true;
+                this.game.score++;
+            } else {
+                // no collision
+            }
+        })
     }
 }
 

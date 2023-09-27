@@ -2,6 +2,8 @@ import { Capy } from './capy.js';
 import { InputHandler } from './input.js';
 import { Background } from './background.js';
 import { GroundMob, FlyingMob, Hedgehog, Wizard } from './mobs.js';
+import { UI } from './UI.js';
+
 
 // LOAD event: Javascript waits for all dependent resources such as stylsheets 
 // and images to be fully loaded and available before it runs
@@ -21,15 +23,20 @@ window.addEventListener('load', function(){
             this.maxSpeed = 3;
             this.background = new Background(this);
             this.capy = new Capy(this);
-            this.input = new InputHandler();
+            this.input = new InputHandler(this);
+            this.UI = new UI(this)
             this.mobs = [];
             this.mobTimer = 0;
             this.mobInterval = 1000;
-    
+            this.debug = true;
+            this.score = 0;
+            this.fontColor = 'purple'
+            
         }
         // Run forever animation frame
         update(delta){
-            this.background.update()
+ 
+            this.background.update();
             this.capy.update(this.input.keys, delta);
             // Handle Mobs
             if (this.mobTimer > this.mobInterval){
@@ -53,6 +60,7 @@ window.addEventListener('load', function(){
             this.mobs.forEach(mob => {
                 mob.draw(context);
             })
+            this.UI.draw(context);
         }
         addMob(){
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
