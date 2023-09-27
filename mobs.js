@@ -22,6 +22,7 @@ class Mob {
         if (this.x + this.width < 0) this.markedForDeletion = true;
     }
     draw(context){
+        context.strokeStyle = 'rgba(0, 0, 0, 0)';
         if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this. height)
         context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
     }
@@ -87,6 +88,7 @@ export class GroundMob {
     }
 
 draw(context){
+    context.strokeStyle = 'rgba(0, 0, 0, 0)';
     if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this. height)
     context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
 }
@@ -124,6 +126,7 @@ export class Hedgehog extends Mob {
     if (this.x + this.width < 0) this.markedForDeletion = true;
    }
     draw(context) {
+    context.strokeStyle = 'rgba(0, 0, 0, 0)';
     if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this. height)
     context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
     }
@@ -159,6 +162,7 @@ export class Wizard extends Mob{
         if (this.x + this.width < 0) this.markedForDeletion = true;
     }
     draw(context){
+        context.strokeStyle = 'rgba(0, 0, 0, 0)';
         if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this. height)
         context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
     }
