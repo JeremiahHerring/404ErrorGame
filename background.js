@@ -6,7 +6,7 @@ class Layer {
         this.speedModifier = speedModifier;
         this.image = image;
         this.x = 0;
-        this.y = 0;
+        this.y = 50; //should be game.hudHeight
     }
     update(){    
         if (this.x < -this.width) this.x = 0

@@ -34,7 +34,7 @@ export class FlyingMob extends Mob {
         this.width = 25;
         this.height = 26;
         this.x = this.game.width
-        this.y = Math.random() * this.game.height * 0.5
+        this.y = Math.random() * this.game.height * 0.5 + this.game.hudHeight;
         this.speedX = Math.random() + 1;
         this.speedY = 0;
         this.maxFrame = 2.5;
@@ -136,9 +136,9 @@ export class Wizard extends Mob{
         this.game = game;
         this.frameX = 0;
         this.frameY = 0;
-        this.x = this.game.width
-        this.y = Math.random() * this.game.height * 0.5
-        this.speedX = 0.3
+        this.x = this.game.width;
+        this.y = Math.random() * this.game.height * 0.5 + this.game.hudHeight;
+        this.speedX = 0.3;
         this.speedY = 0;
         this.maxFrame = 9;
         this.image = document.getElementById('wizard-idle')

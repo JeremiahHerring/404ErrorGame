@@ -11,7 +11,7 @@ window.addEventListener('load', function(){
     const canvas = document.getElementById('canvas1')
     const ctx = canvas.getContext('2d');
     canvas.width = 1000;
-    canvas.height = 500;
+    canvas.height = 550;
 
     // All logic will go through class Game
     class Game {
@@ -30,8 +30,8 @@ window.addEventListener('load', function(){
             this.mobInterval = 1000;
             this.debug = true;
             this.score = 0;
-            this.fontColor = 'purple'
-            
+            this.fontColor = 'black';
+            this.hudHeight = 50;
         }
         // Run forever animation frame
         update(delta){

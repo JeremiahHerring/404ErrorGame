@@ -10,6 +10,6 @@ draw(context){
     context.textAlign = 'left';
     context.fillStyle = this.game.fontColor;
     // score
-    context.fillText('Points: ' + this.game.score, 20, 50) // .fillText() - draws filled text on the canvas
+    context.fillText('Points: ' + this.game.score, 20, 35) // .fillText() - draws filled text on the canvas
 }
 }
