@@ -19,9 +19,8 @@ export class Capy {
         this.maxSpeed = 10;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Sitting(this), new Walking(this), new Jumping(this), new Falling(this), new Charging(this)];
-        this.currentState = this.states[0]; // points to index within this.states
-        this.currentState.enter(); // activate initial default state
+        this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game)];
+ 
     }
 
     update(input, delta){

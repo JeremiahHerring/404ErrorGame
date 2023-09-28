@@ -4,7 +4,6 @@ import { Background } from './background.js';
 import { GroundMob, FlyingMob, Hedgehog, Wizard } from './mobs.js';
 import { UI } from './UI.js';
 
-
 // LOAD event: Javascript waits for all dependent resources such as stylsheets 
 // and images to be fully loaded and available before it runs
 window.addEventListener('load', function(){
@@ -26,11 +25,14 @@ window.addEventListener('load', function(){
             this.input = new InputHandler(this);
             this.UI = new UI(this)
             this.mobs = [];
+            this.particles = [];
             this.mobTimer = 0;
             this.mobInterval = 1000;
             this.debug = true;
             this.score = 0;
             this.fontColor = 'purple'
+            this.capy.currentState = this.capy.states[0]; // points to index within this.states
+            this.capy.currentState.enter(); // activate initial default state
             
         }
         // Run forever animation frame
@@ -49,7 +51,11 @@ window.addEventListener('load', function(){
             this.mobs.forEach(mob => {
                 mob.update(delta);
                 if (mob.markedForDeletion) this.mobs.splice(this.mobs.indexOf(mob), 1);
-
+            })
+            // Handle particles
+            this.particles.forEach((particle, index) => {
+                particle.update();
+                if (particle.markedForDeletion) this.particles.splice(index, 1)
             })
 
         }
@@ -66,12 +72,11 @@ window.addEventListener('load', function(){
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
             if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this))
             this.mobs.push(new FlyingMob(this))
-            console.log(this.mobs)
+            
         }
     }
 
     const game = new Game(canvas.width, canvas.height);
-    console.log(game);
 
     let lastTime = 0;
 
