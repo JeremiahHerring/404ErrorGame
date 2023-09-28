@@ -12,7 +12,7 @@ export class Capy {
         this.frameInterval = 1000/this.fps; 
         this.frameTimer = 0;
         // Canvas.height - this.height
-        this.y = this.game.height - this.height - this.game.groundMargin;
+        this.y = 400
         this.speed = 0;
         this.frameX = 0;
         this.frameY = 0;

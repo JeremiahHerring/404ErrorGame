@@ -30,7 +30,7 @@ export class Sitting extends State {  // Child Class (sub class)
         // While a capy is in a certain state, it will only react to a certain amount of inputs
         if (input.includes('ArrowLeft') || input.includes('ArrowRight')){
             this.capy.setState(states.RUNNING, 1);
-        } else if (input.includes('Enter')) {
+        } else if (input.includes(' ')) {
             this.capy.setState(states.CHARGING, 2)
         }
     }
@@ -51,10 +51,11 @@ export class Walking extends State {  // Child Class (sub class)
         // While a capy is in a certain state, it will only react to a certain amount of inputs
         if (input.includes('ArrowDown')){
             this.capy.setState(states.SITTING, 0);
-        } else if ((input.includes('ArrowUp')) || (input.includes(" ")))
+        } else if ((input.includes('ArrowUp')))
         this.capy.setState(states.JUMPING, 1);
-        else if (input.includes('Enter')) {
+        else if (input.includes(' ')) {
             this.capy.setState(states.CHARGING, 2)
+
         }
     }
 }
@@ -75,7 +76,7 @@ export class Jumping extends State {  // Child Class (sub class)
         // While a capy is in a certain state, it will only react to a certain amount of inputs
         if (this.capy.speedY > this.capy.gravity){
             this.capy.setState(states.FALLING, 1);
-        } else if (input.includes('Enter')) {
+        } else if (input.includes(' ')) {
             this.capy.setState(states.CHARGING, 2)
         }
     }
@@ -108,14 +109,15 @@ export class Charging extends State {  // Child Class (sub class)
     enter(){
         this.frameX = 0;
         this.capy.maxFrame = 3.0;
-        this.capy.frameY = 9.5;
+        this.capy.frameY = 7.8;
     }
     // Switch the capy into different states
     handleInput(input){
         // While a capy is in a certain state, it will only react to a certain amount of inputs
-        if (!input.includes('Enter') && this.player.onGround()){
+        if (!input.includes(' ') && this.capy.onGround()){
             this.capy.setState(states.RUNNING, 1);
-        } else if (!input.includes('Enter') && !this.player.onGround()){
+            this.capy.y = 427.5;
+        } else if (!input.includes(' ') && !this.capy.onGround()){
             this.capy.setState(states.FALLING, 1);
     }
 }
