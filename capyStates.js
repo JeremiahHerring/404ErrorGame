@@ -1,4 +1,4 @@
-import { Dust } from './Particles.js'
+import { Dust, Fire } from './particles.js'
 
 const states = {
     // ENUM OBJECT - pair values and names of each state, helps with code readability
@@ -51,7 +51,7 @@ export class Walking extends State {  // Child Class (sub class)
     }
     // Switch the game.capy into different states
     handleInput(input){
-        this.game.particles.push(new Dust(this.game, this.game.x, this.game.y));
+        this.game.particles.push(new Dust(this.game, this.game.capy.x + this.game.capy.width * 0.5, this.game.capy.y + this.game.capy.height));
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
         if (input.includes('ArrowDown')){
             this.game.capy.setState(states.SITTING, 0);
@@ -117,6 +117,8 @@ export class Charging extends State {  // Child Class (sub class)
     }
     // Switch the game.capy into different states
     handleInput(input){
+        // .unshift() adds one or more elements to the beginning of an array & returns the new length of array
+        this.game.particles.unshift(new Fire(this.game, this.game.capy.x + this.game.capy.width * 0.5, this.game.capy.y + this.game.capy.height));
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
         if (!input.includes(' ') && this.game.capy.onGround()){
             this.game.capy.setState(states.RUNNING, 1);

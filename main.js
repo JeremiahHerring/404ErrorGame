@@ -20,6 +20,7 @@ window.addEventListener('load', function(){
             this.groundMargin = 30;
             this.speed = 0;
             this.maxSpeed = 3;
+            this.maxParticles = 50;
             this.background = new Background(this);
             this.capy = new Capy(this);
             this.input = new InputHandler(this);
@@ -57,6 +58,11 @@ window.addEventListener('load', function(){
                 particle.update();
                 if (particle.markedForDeletion) this.particles.splice(index, 1)
             })
+        if (this.particles.length > this.maxParticles) {
+            // Slice returns a portion of an array where start and end 
+            // represent the index of items in that array. 
+            this.particles = this.particles.slice(0, this.maxParticles);
+        }
 
         }
         // Draw images, score, and so on
@@ -66,8 +72,11 @@ window.addEventListener('load', function(){
             this.mobs.forEach(mob => {
                 mob.draw(context);
             })
-            this.UI.draw(context);
-        }
+            this.particles.forEach(particle => {
+                particle.draw(context);
+        })
+        this.UI.draw(context);
+    }
         addMob(){
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
             if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this))
