@@ -29,7 +29,10 @@ window.addEventListener('load', function(){
             this.mobTimer = 0;
             this.mobInterval = 1000;
             this.debug = true;
+            this.health = 6;
             this.score = 0;
+            this.hedgehogScore = 0;
+            this.beeScore = 0;
             this.fontColor = 'black';
             this.hudHeight = 50;
         }

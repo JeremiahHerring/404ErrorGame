@@ -30,6 +30,7 @@ class Mob {
 export class FlyingMob extends Mob {
     constructor(game){
         super(); // runs code from parent class
+        this.name = "bee";
         this.game = game;
         this.width = 25;
         this.height = 26;
@@ -54,6 +55,7 @@ export class FlyingMob extends Mob {
 
 export class GroundMob {
     constructor(game){
+        this.name = "wolf";
         this.frameX = 0;
         this.frameY = 0;
         this.game = game;
@@ -95,6 +97,7 @@ draw(context){
 export class Hedgehog extends Mob {
     constructor(game){
         super();
+        this.name = "hedgehog";
         this.game = game;
         this.width = 24;
         this.height = 25;
@@ -131,6 +134,7 @@ export class Hedgehog extends Mob {
 export class Wizard extends Mob{
     constructor(game){
         super();
+        this.name = "wizard";
         this.width = 80;
         this.height = 80;
         this.game = game;
