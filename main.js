@@ -31,6 +31,7 @@ window.addEventListener('load', function(){
             this.mobTimer = 0;
             this.mobInterval = 1000;
             this.debug = false;
+            this.gameOver = false;
             this.health = 6;
             this.score = 0;
             this.hedgehogScore = 0;
@@ -42,7 +43,7 @@ window.addEventListener('load', function(){
         }
         // Run forever animation frame
         update(delta){
- 
+            if (this.score > 5) this.gameOver = true;
             this.background.update();
             this.capy.update(this.input.keys, delta);
             // Handle Mobs
@@ -65,7 +66,7 @@ window.addEventListener('load', function(){
         if (this.particles.length > this.maxParticles) {
             // Slice returns a portion of an array where start and end 
             // represent the index of items in that array. 
-            this.particles = this.particles.slice(0, this.maxParticles);
+            this.particles.length = this.maxParticles;
         }
         // Handle collision boom
         this.collisions.forEach((collision, index) => {
@@ -88,12 +89,10 @@ window.addEventListener('load', function(){
         this.UI.draw(context);
     })
 }
-
         addMob(){
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
             if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this))
             this.mobs.push(new FlyingMob(this))
-            
         }
     }
 
@@ -107,7 +106,7 @@ window.addEventListener('load', function(){
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         game.update(delta)
         game.draw(ctx);
-        requestAnimationFrame(animate);
+        if (!game.gameOver) requestAnimationFrame(animate);
     }
     animate(0);
 });
