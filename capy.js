@@ -76,13 +76,14 @@ export class Capy {
                 mob.y + mob.height > this.y
             ){
                 mob.markedForDeletion = true;
-                this.game.score++;
                 switch (mob.name) {
                     case "bee":
                         this.game.beeScore++;
+                        this.game.score++;
                         break;
                     case "hedgehog":
                         this.game.hedgehogScore++;
+                        this.game.score += 2;
                         break;
                     case "wolf":
                     case "wizard":
