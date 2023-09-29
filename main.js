@@ -27,9 +27,10 @@ window.addEventListener('load', function(){
             this.UI = new UI(this)
             this.mobs = [];
             this.particles = [];
+            this.collisions = [];
             this.mobTimer = 0;
             this.mobInterval = 1000;
-            this.debug = true;
+            this.debug = false;
             this.health = 6;
             this.score = 0;
             this.hedgehogScore = 0;
@@ -66,7 +67,11 @@ window.addEventListener('load', function(){
             // represent the index of items in that array. 
             this.particles = this.particles.slice(0, this.maxParticles);
         }
-
+        // Handle collision boom
+        this.collisions.forEach((collision, index) => {
+            collision.update(delta);
+         if (collision.markedForDeletion) this.collisions.splice(index, 1);
+        })
         }
         // Draw images, score, and so on
         draw(context){
@@ -77,9 +82,13 @@ window.addEventListener('load', function(){
             })
             this.particles.forEach(particle => {
                 particle.draw(context);
-        })
+            })
+            this.collisions.forEach(collision => {
+                collision.draw(context);
         this.UI.draw(context);
-    }
+    })
+}
+
         addMob(){
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
             if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this))

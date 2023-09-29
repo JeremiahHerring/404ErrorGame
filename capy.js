@@ -1,4 +1,5 @@
-import { Sitting, Walking, Jumping, Falling, Charging, Slamming } from './capyStates.js'
+import { Sitting, Walking, Jumping, Falling, Charging, Slamming, Hurt } from './capyStates.js'
+import { Boom } from './collision.js'
 
 export class Capy {
     constructor(game){
@@ -19,7 +20,7 @@ export class Capy {
         this.maxSpeed = 10;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game), new Slamming(this.game)];
+        this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game), new Slamming(this.game), new Hurt(this.game)];
  
     }
 
@@ -76,6 +77,7 @@ export class Capy {
                 mob.y + mob.height > this.y
             ){
                 mob.markedForDeletion = true;
+                this.game.collisions.push(new Boom(this.game, mob.x + mob.width * 0.5, mob.y + mob.height * 0.5))
                 switch (mob.name) {
                     case "bee":
                         this.game.beeScore++;
@@ -86,9 +88,22 @@ export class Capy {
                         this.game.score += 2;
                         break;
                     case "wolf":
-                    case "wizard":
-                        if (this.game.health > 0)
+                         if (this.currentState === this.states[4] || this.currentState === this.states[5]){
+                            this.game.score += 1
+                         } else {
+                            this.setState(6, 0)
+                            if  (this.game.health > 0)
                             this.game.health--;
+                         }
+                        break;
+                    case "wizard":
+                        if (this.currentState === this.states[4] || this.currentState === this.states[5]){
+                            this.game.score += 1
+                         } else {
+                            this.setState(6, 0)
+                            if (this.game.health > 0)
+                            this.game.health--;
+                         }
                         break;
                     default:
                         console.error("mob type not detected");

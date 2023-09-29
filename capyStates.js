@@ -1,4 +1,4 @@
-import { Dust, Fire, Gravity } from './particles.js'
+import { Dust, Fire, Gravity, AOE } from './particles.js'
 
 const states = {
     // ENUM OBJECT - pair values and names of each state, helps with code readability
@@ -8,7 +8,7 @@ const states = {
         FALLING: 3,
         CHARGING: 4,
         SLAMMING: 5,
-        HIT: 6,
+        HURT: 6,
 }
 
 class State {  // SUPER Class
@@ -155,9 +155,33 @@ export class Slamming extends State {  // Child Class (sub class)
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
         if (this.game.capy.onGround()){
             this.game.capy.setState(states.RUNNING, 1);
+            for (let i = 0; i < 30; i++)
+            this.game.particles.unshift(new AOE(this.game, this.game.capy.x + this.game.capy.width * 0.5, this.game.capy.y + this.game.capy.height));
             this.game.capy.y = 427.5;
         } else if (input.includes(' ') && !this.game.capy.onGround()){
             this.game.capy.setState(states.CHARGING, 2);
-        }
+        } 
+    }
 }
+
+export class Hurt extends State {  // Child Class (sub class)
+    constructor(game){
+        super('HURT', game)        
+
+    }
+    enter(){
+        this.game.capy.frameX = 0;
+        this.game.capy.maxFrame = 7.0;
+        this.game.capy.frameY = 9.375;
+    }
+    // Switch the game.capy into different states
+    handleInput(input){
+        // .unshift() adds one or more elements to the beginning of an array & returns the new length of array
+        // While a game.capy is in a certain state, it will only react to a certain amount of inputs
+        if (this.game.capy.frameX >= 7 && this.game.capy.onGround()){
+            this.game.capy.setState(states.RUNNING, 1);
+        } else if (this.game.capy.frameX >= 7 && !this.game.capy.onGround){
+            this.game.capy.setState(states.FALLING, 1);
+        } 
+    }
 }
