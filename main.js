@@ -10,7 +10,7 @@ window.addEventListener('load', function(){
     const canvas = document.getElementById('canvas1')
     const ctx = canvas.getContext('2d');
     canvas.width = 1000;
-    canvas.height = 500;
+    canvas.height = 550;
 
     // All logic will go through class Game
     class Game {
@@ -29,11 +29,14 @@ window.addEventListener('load', function(){
             this.mobTimer = 0;
             this.mobInterval = 1000;
             this.debug = true;
+            this.health = 6;
             this.score = 0;
-            this.fontColor = 'purple'
+            this.hedgehogScore = 0;
+            this.beeScore = 0;
+            this.fontColor = 'black';
+            this.hudHeight = 50;
             this.capy.currentState = this.capy.states[0]; // points to index within this.states
             this.capy.currentState.enter(); // activate initial default state
-            
         }
         // Run forever animation frame
         update(delta){

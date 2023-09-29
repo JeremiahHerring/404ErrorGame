@@ -74,8 +74,25 @@ export class Capy {
                 mob.x + mob.width > this.x && 
                 mob.y < this.y + this.height && 
                 mob.y + mob.height > this.y
-            ){ mob.markedForDeletion = true;
+            ){
+                mob.markedForDeletion = true;
                 this.game.score++;
+                switch (mob.name) {
+                    case "bee":
+                        this.game.beeScore++;
+                        break;
+                    case "hedgehog":
+                        this.game.hedgehogScore++;
+                        break;
+                    case "wolf":
+                    case "wizard":
+                        if (this.game.health > 0)
+                            this.game.health--;
+                        break;
+                    default:
+                        console.error("mob type not detected");
+                        break;
+                }
             } else {
                 // no collision
             }
