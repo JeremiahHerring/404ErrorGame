@@ -1,4 +1,4 @@
-import { Dust, Fire } from './particles.js'
+import { Dust, Fire, Gravity } from './particles.js'
 
 const states = {
     // ENUM OBJECT - pair values and names of each state, helps with code readability
@@ -7,7 +7,7 @@ const states = {
         JUMPING: 2,
         FALLING: 3,
         CHARGING: 4,
-        GIGACHAD: 5,
+        SLAMMING: 5,
         HIT: 6,
 }
 
@@ -82,6 +82,8 @@ export class Jumping extends State {  // Child Class (sub class)
             this.game.capy.setState(states.FALLING, 1);
         } else if (input.includes(' ')) {
             this.game.capy.setState(states.CHARGING, 2)
+        } else if (input.includes('ArrowDown')) {
+            this.game.capy.setState(states.SLAMMING, 0)
         }
     }
 }
@@ -101,6 +103,8 @@ export class Falling extends State {  // Child Class (sub class)
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
         if (this.game.capy.onGround()){
             this.game.capy.setState(states.RUNNING, 1);
+        } else if (input.includes('ArrowDown')) {
+            this.game.capy.setState(states.SLAMMING, 0)
         }
     }
 }
@@ -127,6 +131,33 @@ export class Charging extends State {  // Child Class (sub class)
             this.game.capy.setState(states.FALLING, 1);
         } else if (input.includes(' ') && input.includes('ArrowUp') && this.game.capy.onGround()) {
             this.game.capy.speedY -= 27
+        } else if (input.includes('ArrowDown')) {
+            this.game.capy.setState(states.SLAMMING, 0)
+        }
+}
+}
+
+export class Slamming extends State {  // Child Class (sub class)
+    constructor(game){
+        super('SLAMMING', game)        
+
+    }
+    enter(){
+        this.game.capy.frameX = 0;
+        this.game.capy.maxFrame = 3.0;
+        this.game.capy.frameY = 12.5;
+        this.game.capy.speedY = 15;
+    }
+    // Switch the game.capy into different states
+    handleInput(input){
+        // .unshift() adds one or more elements to the beginning of an array & returns the new length of array
+        this.game.particles.unshift(new Gravity(this.game, this.game.capy.x + this.game.capy.width * 0.5, this.game.capy.y + this.game.capy.height));
+        // While a game.capy is in a certain state, it will only react to a certain amount of inputs
+        if (this.game.capy.onGround()){
+            this.game.capy.setState(states.RUNNING, 1);
+            this.game.capy.y = 427.5;
+        } else if (input.includes(' ') && !this.game.capy.onGround()){
+            this.game.capy.setState(states.CHARGING, 2);
         }
 }
 }

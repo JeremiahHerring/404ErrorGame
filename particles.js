@@ -52,3 +52,28 @@ export class Fire extends Particle {
         context.restore();
     }
 }
+
+export class Gravity extends Particle {
+    constructor(game, x, y){
+        super(game);
+        this.image = document.getElementById('gravity')
+        this.size = Math.random() * 100 + 50
+        this.x = x;
+        this.y = y;
+        this.speedX = 1;
+        this.speedY = 1;
+        this.va = Math.random() * 0.2 - 0.1
+    }
+    update(){
+        super.update();
+        this.angle += this.va
+  
+    }
+    draw(context){
+        context.save();
+        context.translate(this.x, this.y - 105);
+        context.rotate(this.angle);
+        context.drawImage(this.image, 0, 0, this.size, this.size);
+        context.restore();
+    }
+}

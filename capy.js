@@ -1,4 +1,4 @@
-import { Sitting, Walking, Jumping, Falling, Charging } from './capyStates.js'
+import { Sitting, Walking, Jumping, Falling, Charging, Slamming } from './capyStates.js'
 
 export class Capy {
     constructor(game){
@@ -19,7 +19,7 @@ export class Capy {
         this.maxSpeed = 10;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game)];
+        this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game), new Slamming(this.game)];
  
     }
 
