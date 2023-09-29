@@ -1,4 +1,4 @@
-import { Sitting, Walking, Jumping, Falling } from './capyStates.js'
+import { Sitting, Walking, Jumping, Falling, Charging } from './capyStates.js'
 
 export class Capy {
     constructor(game){
@@ -12,19 +12,19 @@ export class Capy {
         this.frameInterval = 1000/this.fps; 
         this.frameTimer = 0;
         // Canvas.height - this.height
-        this.y = this.game.height - this.height - this.game.groundMargin;
+        this.y = 400
         this.speed = 0;
         this.frameX = 0;
         this.frameY = 0;
         this.maxSpeed = 10;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Sitting(this), new Walking(this), new Jumping(this), new Falling(this)];
-        this.currentState = this.states[0]; // points to index within this.states
-        this.currentState.enter(); // activate initial default state
+        this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game)];
+ 
     }
 
     update(input, delta){
+        this.checkCollision();
         this.currentState.handleInput(input)
         // Horizontal movement
         this.x += this.speed;
@@ -53,6 +53,7 @@ export class Capy {
 
     }
     draw(context){
+        if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
         context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
     }
     onGround(){
@@ -64,6 +65,39 @@ export class Capy {
         this.currentState = this.states[state];
         this.game.speed = this.game.maxSpeed * speed;
         this.currentState.enter();
+    }
+    checkCollision(){
+        this.game.mobs.forEach(mob => {
+            if (
+                // collision detected
+                mob.x < this.x + this.width && 
+                mob.x + mob.width > this.x && 
+                mob.y < this.y + this.height && 
+                mob.y + mob.height > this.y
+            ){
+                mob.markedForDeletion = true;
+                switch (mob.name) {
+                    case "bee":
+                        this.game.beeScore++;
+                        this.game.score++;
+                        break;
+                    case "hedgehog":
+                        this.game.hedgehogScore++;
+                        this.game.score += 2;
+                        break;
+                    case "wolf":
+                    case "wizard":
+                        if (this.game.health > 0)
+                            this.game.health--;
+                        break;
+                    default:
+                        console.error("mob type not detected");
+                        break;
+                }
+            } else {
+                // no collision
+            }
+        })
     }
 }
 

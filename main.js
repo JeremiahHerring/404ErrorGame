@@ -2,6 +2,7 @@ import { Capy } from './capy.js';
 import { InputHandler } from './input.js';
 import { Background } from './background.js';
 import { GroundMob, FlyingMob, Hedgehog, Wizard } from './mobs.js';
+import { UI } from './UI.js';
 
 // LOAD event: Javascript waits for all dependent resources such as stylsheets 
 // and images to be fully loaded and available before it runs
@@ -9,7 +10,7 @@ window.addEventListener('load', function(){
     const canvas = document.getElementById('canvas1')
     const ctx = canvas.getContext('2d');
     canvas.width = 1000;
-    canvas.height = 500;
+    canvas.height = 550;
 
     // All logic will go through class Game
     class Game {
@@ -19,17 +20,29 @@ window.addEventListener('load', function(){
             this.groundMargin = 30;
             this.speed = 0;
             this.maxSpeed = 3;
+            this.maxParticles = 50;
             this.background = new Background(this);
             this.capy = new Capy(this);
-            this.input = new InputHandler();
+            this.input = new InputHandler(this);
+            this.UI = new UI(this)
             this.mobs = [];
+            this.particles = [];
             this.mobTimer = 0;
             this.mobInterval = 1000;
-    
+            this.debug = true;
+            this.health = 6;
+            this.score = 0;
+            this.hedgehogScore = 0;
+            this.beeScore = 0;
+            this.fontColor = 'black';
+            this.hudHeight = 50;
+            this.capy.currentState = this.capy.states[0]; // points to index within this.states
+            this.capy.currentState.enter(); // activate initial default state
         }
         // Run forever animation frame
         update(delta){
-            this.background.update()
+ 
+            this.background.update();
             this.capy.update(this.input.keys, delta);
             // Handle Mobs
             if (this.mobTimer > this.mobInterval){
@@ -42,8 +55,17 @@ window.addEventListener('load', function(){
             this.mobs.forEach(mob => {
                 mob.update(delta);
                 if (mob.markedForDeletion) this.mobs.splice(this.mobs.indexOf(mob), 1);
-
             })
+            // Handle particles
+            this.particles.forEach((particle, index) => {
+                particle.update();
+                if (particle.markedForDeletion) this.particles.splice(index, 1)
+            })
+        if (this.particles.length > this.maxParticles) {
+            // Slice returns a portion of an array where start and end 
+            // represent the index of items in that array. 
+            this.particles = this.particles.slice(0, this.maxParticles);
+        }
 
         }
         // Draw images, score, and so on
@@ -53,17 +75,20 @@ window.addEventListener('load', function(){
             this.mobs.forEach(mob => {
                 mob.draw(context);
             })
-        }
+            this.particles.forEach(particle => {
+                particle.draw(context);
+        })
+        this.UI.draw(context);
+    }
         addMob(){
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
             if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this))
             this.mobs.push(new FlyingMob(this))
-            console.log(this.mobs)
+            
         }
     }
 
     const game = new Game(canvas.width, canvas.height);
-    console.log(game);
 
     let lastTime = 0;
 
