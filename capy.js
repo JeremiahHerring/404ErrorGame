@@ -12,16 +12,15 @@ export class Capy {
         this.frameInterval = 1000/this.fps; 
         this.frameTimer = 0;
         // Canvas.height - this.height
-        this.y = this.game.height - this.height - this.game.groundMargin;
+        this.y = 400
         this.speed = 0;
         this.frameX = 0;
         this.frameY = 0;
         this.maxSpeed = 10;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Sitting(this), new Walking(this), new Jumping(this), new Falling(this), new Charging(this)];
-        this.currentState = this.states[0]; // points to index within this.states
-        this.currentState.enter(); // activate initial default state
+        this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game)];
+ 
     }
 
     update(input, delta){
@@ -75,8 +74,26 @@ export class Capy {
                 mob.x + mob.width > this.x && 
                 mob.y < this.y + this.height && 
                 mob.y + mob.height > this.y
-            ){ mob.markedForDeletion = true;
-                this.game.score++;
+            ){
+                mob.markedForDeletion = true;
+                switch (mob.name) {
+                    case "bee":
+                        this.game.beeScore++;
+                        this.game.score++;
+                        break;
+                    case "hedgehog":
+                        this.game.hedgehogScore++;
+                        this.game.score += 2;
+                        break;
+                    case "wolf":
+                    case "wizard":
+                        if (this.game.health > 0)
+                            this.game.health--;
+                        break;
+                    default:
+                        console.error("mob type not detected");
+                        break;
+                }
             } else {
                 // no collision
             }

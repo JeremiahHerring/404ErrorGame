@@ -31,11 +31,12 @@ class Mob {
 export class FlyingMob extends Mob {
     constructor(game){
         super(); // runs code from parent class
+        this.name = "bee";
         this.game = game;
         this.width = 25;
         this.height = 26;
         this.x = this.game.width
-        this.y = Math.random() * this.game.height * 0.5
+        this.y = Math.random() * this.game.height * 0.5 + this.game.hudHeight;
         this.speedX = Math.random() + 1;
         this.speedY = 0;
         this.maxFrame = 2.5;
@@ -55,6 +56,7 @@ export class FlyingMob extends Mob {
 
 export class GroundMob {
     constructor(game){
+        this.name = "wolf";
         this.frameX = 0;
         this.frameY = 0;
         this.game = game;
@@ -97,6 +99,7 @@ draw(context){
 export class Hedgehog extends Mob {
     constructor(game){
         super();
+        this.name = "hedgehog";
         this.game = game;
         this.width = 24;
         this.height = 25;
@@ -134,14 +137,15 @@ export class Hedgehog extends Mob {
 export class Wizard extends Mob{
     constructor(game){
         super();
+        this.name = "wizard";
         this.width = 80;
         this.height = 80;
         this.game = game;
         this.frameX = 0;
         this.frameY = 0;
-        this.x = this.game.width
-        this.y = Math.random() * this.game.height * 0.5
-        this.speedX = 0.3
+        this.x = this.game.width;
+        this.y = Math.random() * this.game.height * 0.5 + this.game.hudHeight;
+        this.speedX = 0.3;
         this.speedY = 0;
         this.maxFrame = 9;
         this.image = document.getElementById('wizard-idle')
