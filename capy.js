@@ -1,5 +1,6 @@
 import { Sitting, Walking, Jumping, Falling, Charging, Slamming, Hurt } from './capyStates.js'
 import { Boom } from './collision.js'
+import { FloatingText } from './floatingText.js';
 
 export class Capy {
     constructor(game){
@@ -21,6 +22,7 @@ export class Capy {
         this.speedY = 0;
         this.gravity = 1;
         this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game), new Slamming(this.game), new Hurt(this.game)];
+        this.currentState = null;
  
     }
 
@@ -78,18 +80,22 @@ export class Capy {
             ){
                 mob.markedForDeletion = true;
                 this.game.collisions.push(new Boom(this.game, mob.x + mob.width * 0.5, mob.y + mob.height * 0.5))
+
                 switch (mob.name) {
                     case "bee":
                         this.game.beeScore++;
+                        this.game.floatingText.push(new FloatingText('+1', mob.x, mob.y, 945, 50))
                         this.game.score++;
                         break;
                     case "hedgehog":
                         this.game.hedgehogScore++;
                         this.game.score += 2;
+                        this.game.floatingText.push(new FloatingText('+2', mob.x, mob.y, 945, 50))
                         break;
                     case "wolf":
                          if (this.currentState === this.states[4] || this.currentState === this.states[5]){
-                            this.game.score += 1
+                            this.game.score++;
+                            this.game.floatingText.push(new FloatingText('+1', mob.x, mob.y, 945, 50))
                          } else {
                             this.setState(6, 0)
                             if  (this.game.health > 0)
@@ -98,7 +104,8 @@ export class Capy {
                         break;
                     case "wizard":
                         if (this.currentState === this.states[4] || this.currentState === this.states[5]){
-                            this.game.score += 1
+                            this.game.score ++
+                            this.game.floatingText.push(new FloatingText('+2', mob.x, mob.y, 945, 50))
                          } else {
                             this.setState(6, 0)
                             if (this.game.health > 0)

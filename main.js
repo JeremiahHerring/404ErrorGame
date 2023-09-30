@@ -3,6 +3,7 @@ import { InputHandler } from './input.js';
 import { Background } from './background.js';
 import { GroundMob, FlyingMob, Hedgehog, Wizard } from './mobs.js';
 import { UI } from './UI.js';
+import { FloatingText } from './floatingText.js';
 
 // LOAD event: Javascript waits for all dependent resources such as stylsheets 
 // and images to be fully loaded and available before it runs
@@ -28,6 +29,7 @@ window.addEventListener('load', function(){
             this.mobs = [];
             this.particles = [];
             this.collisions = [];
+            this.floatingText = [];
             this.mobTimer = 0;
             this.mobInterval = 1000;
             this.debug = false;
@@ -43,7 +45,7 @@ window.addEventListener('load', function(){
         }
         // Run forever animation frame
         update(delta){
-            if (this.score > 5) this.gameOver = true;
+            if (this.health === 0) this.gameOver = true;
             this.background.update();
             this.capy.update(this.input.keys, delta);
             // Handle Mobs
@@ -53,15 +55,17 @@ window.addEventListener('load', function(){
             } else {
                 this.mobTimer += delta;
             }
-            // .forEach() method executres a provided function once for each array element
+            // Handle Mobs
             this.mobs.forEach(mob => {
                 mob.update(delta);
-                if (mob.markedForDeletion) this.mobs.splice(this.mobs.indexOf(mob), 1);
             })
-            // Handle particles
+            // Handle Floating Text
+            this.floatingText.forEach(text => {
+                text.update();         
+            })
+            // Handle Particles
             this.particles.forEach((particle, index) => {
                 particle.update();
-                if (particle.markedForDeletion) this.particles.splice(index, 1)
             })
         if (this.particles.length > this.maxParticles) {
             // Slice returns a portion of an array where start and end 
@@ -71,8 +75,16 @@ window.addEventListener('load', function(){
         // Handle collision boom
         this.collisions.forEach((collision, index) => {
             collision.update(delta);
-         if (collision.markedForDeletion) this.collisions.splice(index, 1);
         })
+        // Using filter instead of splice for performance purposes
+        this.mobs = this.mobs.filter(mob => !mob.markedForDeletion);
+        this.floatingText = this.floatingText.filter(text => !text.markedForDeletion);
+        this.particles = this.particles.filter(particle => !particle.markedForDeletion);
+        this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);
+
+
+
+
         }
         // Draw images, score, and so on
         draw(context){
@@ -86,8 +98,12 @@ window.addEventListener('load', function(){
             })
             this.collisions.forEach(collision => {
                 collision.draw(context);
-        this.UI.draw(context);
-    })
+            })
+            this.floatingText.forEach(text => {
+                text.draw(context); 
+            })
+            
+    this.UI.draw(context);
 }
         addMob(){
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
