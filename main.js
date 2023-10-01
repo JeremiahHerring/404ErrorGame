@@ -5,10 +5,47 @@ import { GroundMob, FlyingMob, Hedgehog, Wizard } from './mobs.js';
 import { UI } from './UI.js';
 import { FloatingText } from './floatingText.js';
 
+/*
+*  Naming convention for assets sub-folders:
+*    sprites folder- has 'Image' in the name
+*    effects folder - has 'Effect' in the name
+*    background folder - all other file names
+*/
+const imageArr = [
+    'capyImage.png',
+    'layer1.png',
+    'layer2.png',
+    'layer3.png',
+    'layer4.png',
+    'beeImage.png',
+    'wizardImage.png',
+    'wolfImage.png',
+    'hedgehogImage.png',
+    'fireEffect.gif',
+    'gravityEffect.gif',
+    'boomEffect.png'
+];
+const images = {};
+imageArr.forEach(imageName => {
+    const name = imageName.split('.')[0];
+    images[name] = new Image();
+    images[name].src = './assets/' + determineImageSubFolder(imageName) + "/" + imageName;
+});
+
+function determineImageSubFolder(imageName) {
+    if (imageName.includes('Image'))
+        return 'sprites';
+    else if (imageName.includes('Effect'))
+        return 'effects';
+    else
+        return 'background';
+}
+export {images};
+
 // LOAD event: Javascript waits for all dependent resources such as stylsheets 
 // and images to be fully loaded and available before it runs
 window.addEventListener('load', function(){
-    const canvas = document.getElementById('canvas1')
+    const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = 1000;
     canvas.height = 550;
@@ -25,7 +62,7 @@ window.addEventListener('load', function(){
             this.background = new Background(this);
             this.capy = new Capy(this);
             this.input = new InputHandler(this);
-            this.UI = new UI(this)
+            this.UI = new UI(this);
             this.mobs = [];
             this.particles = [];
             this.collisions = [];
@@ -88,7 +125,7 @@ window.addEventListener('load', function(){
         }
         // Draw images, score, and so on
         draw(context){
-            this.background.draw(context)
+            this.background.draw(context);
             this.capy.draw(context);
             this.mobs.forEach(mob => {
                 mob.draw(context);
@@ -107,8 +144,8 @@ window.addEventListener('load', function(){
 }
         addMob(){
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
-            if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this))
-            this.mobs.push(new FlyingMob(this))
+            if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this));
+            this.mobs.push(new FlyingMob(this));
         }
     }
 
@@ -119,8 +156,8 @@ window.addEventListener('load', function(){
     function animate(time){
         const delta = time - lastTime; // deltaTime = how many milliseconds it takes to serve next frame (dependent on PC/Monitor)
         lastTime = time;
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        game.update(delta)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        game.update(delta);
         game.draw(ctx);
         if (!game.gameOver) requestAnimationFrame(animate);
     }

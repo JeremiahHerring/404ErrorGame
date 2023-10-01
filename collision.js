@@ -1,7 +1,9 @@
+import { images } from './main.js';
+
 export class Boom {
     constructor(game, x, y){
         this.game = game;
-        this.image = document.getElementById('boom');
+        this.image = images.boomEffect;
         this.boomWidth = 100;
         this.boomHeight = 90;
         this.sizeModifier = Math.random() + 0.5;

@@ -1,6 +1,7 @@
 import { Sitting, Walking, Jumping, Falling, Charging, Slamming, Hurt } from './capyStates.js'
 import { Boom } from './collision.js'
 import { FloatingText } from './floatingText.js';
+import { images } from './main.js';
 
 export class Capy {
     constructor(game){
@@ -8,7 +9,7 @@ export class Capy {
         this.width = 64;
         this.height = 42.5;
         this.x = 0;
-        this.image = document.getElementById('capy')
+        this.image = images.capyImage;
         this.maxFrame;
         this.fps = 20
         this.frameInterval = 1000/this.fps; 
