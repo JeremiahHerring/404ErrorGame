@@ -1,3 +1,5 @@
+import { images } from "./main.js";
+
 class Layer {
     constructor(game, width, height, speedModifier, image) {
         this.game = game;
@@ -23,10 +25,10 @@ export class Background {
         this.game = game;
         this.width = 1000;
         this.height = 500;
-        this.layer1 = document.getElementById('layer1');
-        this.layer2 = document.getElementById('layer2');
-        this.layer3 = document.getElementById('layer3');
-        this.layer4 = document.getElementById('layer4');
+        this.layer1 = images.layer1;
+        this.layer2 = images.layer2;
+        this.layer3 = images.layer3;
+        this.layer4 = images.layer4;
         this.layer1 = new Layer(this.game, this.width, this.height, 0, this.layer1);
         this.layer2 = new Layer(this.game, this.width, this.height, 0.3, this.layer2);
         this.layer3 = new Layer(this.game, this.width, this.height, 0.8, this.layer3);

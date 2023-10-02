@@ -1,3 +1,5 @@
+import { images } from "./main.js";
+
 class Particle {
     constructor(game){
         this.game = game;
@@ -32,7 +34,7 @@ export class Dust extends Particle {
 export class Fire extends Particle {
     constructor(game, x, y){
         super(game);
-        this.image = document.getElementById('fire')
+        this.image = images.fireEffect;
         this.size = Math.random() * 100 + 50
         this.x = x;
         this.y = y;
@@ -56,7 +58,7 @@ export class Fire extends Particle {
 export class Gravity extends Particle {
     constructor(game, x, y){
         super(game);
-        this.image = document.getElementById('gravity')
+        this.image = images.gravityEffect;
         this.size = Math.random() * 100 + 50
         this.x = x;
         this.y = y;
@@ -87,7 +89,7 @@ export class AOE extends Particle {
         this.speedX = Math.random() * 6 - 4;
         this.speedY = Math.random() * 2 + 1;
         this.gravity = 0;
-        this.image = document.getElementById('gravity');
+        this.image = images.gravityEffect;
     }
     update(){
         super.update();
