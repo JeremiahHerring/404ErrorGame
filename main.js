@@ -23,7 +23,8 @@ const imageArr = [
     'hedgehogImage.png',
     'fireEffect.gif',
     'gravityEffect.gif',
-    'boomEffect.png'
+    'boomEffect.png',
+    'bars.png'
 ];
 const images = {};
 imageArr.forEach(imageName => {
@@ -72,6 +73,7 @@ window.addEventListener('load', function(){
             this.debug = false;
             this.gameOver = false;
             this.health = 6;
+            this.energy = 0;
             this.score = 0;
             this.hedgehogScore = 0;
             this.beeScore = 0;

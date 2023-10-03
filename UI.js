@@ -31,9 +31,31 @@ draw(context){
     context.drawImage(images.beeImage, 26, 0, 50 - 26, 27 - 0, beeCountXOffset, 10, 50 - 26, 27 - 0);
     context.fillText('x ' + this.game.beeScore, 32 + beeCountXOffset, 35);
 
-    // draw health
-    const healthXOffset = 40;
-    context.fillText('Health: ' + this.game.health, healthXOffset, 35);
+    // draw the health and energy bars
+    const drawBar = (type) => {
+        let yDist;
+        let barX;
+        if (type === "health") {
+            yDist = 0;
+            barX = 30;
+        }
+        else if (type === "energy") {
+            yDist = 32;
+            barX = 120;
+        }
+        else {
+            yDist = 0;
+            barX = 0;
+        }
+        const barWidth = 32;
+        let frameNum = Math.max(0, 6 - this.game[type]);
+        let frame = frameNum * barWidth;
+        if (this.game[type] < 6) frame-= barWidth;
+        context.drawImage(images.bars, 64 + frame, yDist, 31, 18, barX, -14, 96, 60);  
+        if (this.game[type] === 6) context.drawImage(images.bars, 51, yDist, 6, 18, 65 + barX, -14, 18, 60);
+    }
+    drawBar("health");
+    drawBar("energy");    
 
     // game over
     if (this.game.gameOver){
@@ -46,4 +68,3 @@ draw(context){
         context.restore();
     }
 }
-
