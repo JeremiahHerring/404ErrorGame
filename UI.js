@@ -4,7 +4,7 @@ export class UI {
     constructor(game){
         this.game = game;
         this.fontSize = 30;
-        this.fontFamily = 'Dela Gothic One';
+        this.fontFamily = 'Luckiest Guy';
     }
 
 draw(context){
