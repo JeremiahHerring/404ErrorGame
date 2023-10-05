@@ -1,3 +1,5 @@
+import { images } from './main.js';
+
 class Mob {
     constructor(){
         this.frameX = 0;
@@ -40,7 +42,7 @@ export class FlyingMob extends Mob {
         this.speedX = Math.random() + 1;
         this.speedY = 0;
         this.maxFrame = 2.5;
-        this.image = document.getElementById('bee')
+        this.image = images.beeImage;
         // Move the flying enemies up and down as they move
         this.angle = 0;
         this.angleValue = Math.random() * 0.1 + 0.1;
@@ -64,7 +66,7 @@ export class GroundMob {
         this.height = 51;
         this.x = this.game.width;
         this.y = this.game.height - this.height - this.game.groundMargin;
-        this.image = document.getElementById('wolf-reverse');
+        this.image = images.wolfImage;
         this.speedX = -0.5;
         this.speedY = 0;
         this.maxFrame = 4;
@@ -105,7 +107,7 @@ export class Hedgehog extends Mob {
         this.height = 25;
         this.x = this.game.width;
         this.y = this.game.height - this.height - this.game.groundMargin;
-        this.image = document.getElementById('hedgehog-reverse');
+        this.image = images.hedgehogImage;
         this.speedX = -1.5
         this.speedY = 0;
         this.maxFrame = 5;
@@ -148,7 +150,7 @@ export class Wizard extends Mob{
         this.speedX = 0.3;
         this.speedY = 0;
         this.maxFrame = 9;
-        this.image = document.getElementById('wizard-idle')
+        this.image = images.wizardImage;
 
     }
     update(delta){
