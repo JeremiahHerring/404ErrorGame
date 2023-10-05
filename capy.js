@@ -15,7 +15,7 @@ export class Capy {
         this.frameInterval = 1000/this.fps; 
         this.frameTimer = 0;
         // Canvas.height - this.height
-        this.y = 400
+        this.y = this.game.height - this.height - this.game.groundMargin
         this.speed = 0;
         this.frameX = 0;
         this.frameY = 0;
@@ -25,6 +25,12 @@ export class Capy {
         this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game), new Slamming(this.game), new Hurt(this.game)];
         this.currentState = null;
  
+    }
+
+    restart(){
+        this.x = 0;
+        this.y = this.game.height - this.height - this.game.groundMargin;
+        this.setState(0, 0)
     }
 
     update(input, delta){

@@ -3,7 +3,6 @@ import { InputHandler } from './input.js';
 import { Background } from './background.js';
 import { GroundMob, FlyingMob, Hedgehog, Wizard } from './mobs.js';
 import { UI } from './UI.js';
-import { FloatingText } from './floatingText.js';
 
 /*
 *  Naming convention for assets sub-folders:
@@ -26,6 +25,7 @@ const imageArr = [
     'boomEffect.png',
     'bars.png'
 ];
+
 const images = {};
 imageArr.forEach(imageName => {
     const name = imageName.split('.')[0];
@@ -42,6 +42,7 @@ function determineImageSubFolder(imageName) {
         return 'background';
 }
 export {images};
+
 
 // LOAD event: Javascript waits for all dependent resources such as stylsheets 
 // and images to be fully loaded and available before it runs
@@ -81,6 +82,7 @@ window.addEventListener('load', function(){
             this.hudHeight = 50;
             this.capy.currentState = this.capy.states[0]; // points to index within this.states
             this.capy.currentState.enter(); // activate initial default state
+            this.fullscreenButton = document.getElementById('fullScreenButton')
         }
         // Run forever animation frame
         update(delta){
@@ -121,10 +123,36 @@ window.addEventListener('load', function(){
         this.particles = this.particles.filter(particle => !particle.markedForDeletion);
         this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);
 
-
-
-
         }
+        // Restart Game
+        restart(){
+            this.capy.restart();
+            this.background.restart();
+            this.mobs = [];
+            this.collisions = [];
+            this.health = 6;
+            this.hedgehogScore = 0;
+            this.beeScore = 0;
+            this.score = 0;
+            this.gameOver = false;
+            animate(0);
+        }
+
+        toggleFullScreen(){
+            // document.fullScreenElement is a built in read only property ona document object that returns the element that is currently being presented in full screen mode.
+            // If null full screen is not active
+            console.log(document.fullScreenElement);
+            if (!document.fullscreenElement) {
+                //.requestFullscreen() is asynchronous, returns a promise
+                canvas.requestFullscreen().catch(err => {
+                    alert(`Error, can't enable full-screen mode: ${err.message}`);
+                }); 
+            } else {
+                    document.exitFullscreen();
+                }
+            }
+
+        
         // Draw images, score, and so on
         draw(context){
             this.background.draw(context);
@@ -149,6 +177,7 @@ window.addEventListener('load', function(){
             if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this));
             this.mobs.push(new FlyingMob(this));
         }
+
     }
 
     const game = new Game(canvas.width, canvas.height);
@@ -162,6 +191,8 @@ window.addEventListener('load', function(){
         game.update(delta);
         game.draw(ctx);
         if (!game.gameOver) requestAnimationFrame(animate);
+        fullScreenButton.addEventListener('click', game.toggleFullScreen);
+
     }
     animate(0);
 });
