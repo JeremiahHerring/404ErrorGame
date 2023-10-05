@@ -1,4 +1,7 @@
-import { Sitting, Walking, Jumping, Falling, Charging } from './capyStates.js'
+import { Sitting, Walking, Jumping, Falling, Charging, Slamming, Hurt } from './capyStates.js'
+import { Boom } from './collision.js'
+import { FloatingText } from './floatingText.js';
+import { images } from './main.js';
 
 export class Capy {
     constructor(game){
@@ -6,21 +9,28 @@ export class Capy {
         this.width = 64;
         this.height = 42.5;
         this.x = 0;
-        this.image = document.getElementById('capy')
+        this.image = images.capyImage;
         this.maxFrame;
         this.fps = 20
         this.frameInterval = 1000/this.fps; 
         this.frameTimer = 0;
         // Canvas.height - this.height
-        this.y = 400
+        this.y = this.game.height - this.height - this.game.groundMargin
         this.speed = 0;
         this.frameX = 0;
         this.frameY = 0;
         this.maxSpeed = 10;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game)];
+        this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game), new Slamming(this.game), new Hurt(this.game)];
+        this.currentState = null;
  
+    }
+
+    restart(){
+        this.x = 0;
+        this.y = this.game.height - this.height - this.game.groundMargin;
+        this.setState(0, 0)
     }
 
     update(input, delta){
@@ -30,8 +40,8 @@ export class Capy {
         this.x += this.speed;
         // .includes() - method determines whether an array includes a certain
         // value among its entries, returning true or false as appropriate
-        if (input.includes('ArrowRight')) this.speed = this.maxSpeed;
-        else if (input.includes('ArrowLeft')) this.speed = -this.maxSpeed;
+        if (input.includes('ArrowRight') && this.currentState !== this.states[6] ) this.speed = this.maxSpeed;
+        else if (input.includes('ArrowLeft') && this.currentState !== this.states[6]) this.speed = -this.maxSpeed;
         else this.speed = 0;
         // If player is not pressing anything, Capy stops moving
         if (this.x < 0) this.x = 0;
@@ -76,19 +86,38 @@ export class Capy {
                 mob.y + mob.height > this.y
             ){
                 mob.markedForDeletion = true;
+                this.game.collisions.push(new Boom(this.game, mob.x + mob.width * 0.5, mob.y + mob.height * 0.5))
+
                 switch (mob.name) {
                     case "bee":
                         this.game.beeScore++;
+                        this.game.floatingText.push(new FloatingText('+1', mob.x, mob.y, 945, 50))
                         this.game.score++;
                         break;
                     case "hedgehog":
                         this.game.hedgehogScore++;
                         this.game.score += 2;
+                        this.game.floatingText.push(new FloatingText('+2', mob.x, mob.y, 945, 50))
                         break;
                     case "wolf":
-                    case "wizard":
-                        if (this.game.health > 0)
+                         if (this.currentState === this.states[4] || this.currentState === this.states[5]){
+                            this.game.score++;
+                            this.game.floatingText.push(new FloatingText('+1', mob.x, mob.y, 945, 50))
+                         } else {
+                            this.setState(6, 0)
+                            if  (this.game.health > 0)
                             this.game.health--;
+                         }
+                        break;
+                    case "wizard":
+                        if (this.currentState === this.states[4] || this.currentState === this.states[5]){
+                            this.game.score ++
+                            this.game.floatingText.push(new FloatingText('+2', mob.x, mob.y, 945, 50))
+                         } else {
+                            this.setState(6, 0)
+                            if (this.game.health > 0)
+                            this.game.health--;
+                         }
                         break;
                     default:
                         console.error("mob type not detected");
