@@ -138,6 +138,10 @@ window.addEventListener('load', function(){
             animate(0);
         }
 
+        setupButtonClick(){
+            this.capy.mobileJump();
+            };
+
         toggleFullScreen(){
             // document.fullScreenElement is a built in read only property ona document object that returns the element that is currently being presented in full screen mode.
             // If null full screen is not active
@@ -181,6 +185,7 @@ window.addEventListener('load', function(){
     }
 
     const game = new Game(canvas.width, canvas.height);
+    game.setupButtonClick = game.setupButtonClick.bind(game); // Bind the function to the game instance
 
     let lastTime = 0;
 
@@ -192,7 +197,7 @@ window.addEventListener('load', function(){
         game.draw(ctx);
         if (!game.gameOver) requestAnimationFrame(animate);
         fullScreenButton.addEventListener('click', game.toggleFullScreen);
-
+        mobileButton.addEventListener('click', game.setupButtonClick)
     }
     animate(0);
 });

@@ -24,7 +24,10 @@ export class Capy {
         this.gravity = 1;
         this.states = [new Sitting(this.game), new Walking(this.game), new Jumping(this.game), new Falling(this.game), new Charging(this.game), new Slamming(this.game), new Hurt(this.game)];
         this.currentState = null;
- 
+    }
+
+    mobileJump(){
+        this.setState(2, 1)
     }
 
     restart(){
