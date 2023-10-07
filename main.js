@@ -79,6 +79,7 @@ window.addEventListener('load', function(){
             this.health = 6;
             this.energy = 0;
             this.score = 0;
+            this.highscore = localStorage.getItem("highscore")
             this.hedgehogScore = 0;
             this.beeScore = 0;
             this.fontColor = 'black';
@@ -105,6 +106,10 @@ window.addEventListener('load', function(){
         update(delta){
             if (this.isPaused) return; 
             if (this.health === 0) this.gameOver = true;
+            if (this.gameOver) {
+                this.displayHighScore();
+                console.log("this is working"); 
+            }
             this.background.update();
             this.capy.update(this.input.keys, delta);
             // Handle Mobs
@@ -175,7 +180,21 @@ window.addEventListener('load', function(){
                 }
             }
 
+        // Handle Local High Score
+        displayHighScore() {
+            // Retrieve the highscore from localStorage and convert it to a number
+            this.highscore = parseInt(localStorage.getItem("highscore"), 10) || 0;
+            console.log("Retrieved highscore:", this.highscore); // Debugging line
         
+            if (this.gameOver && (this.highscore === 0 || this.score >= this.highscore)) {
+                // Update the highscore if it's the first time or if the current score is higher
+                localStorage.setItem("highscore", this.score.toString()); // Convert this.score to a string before storing
+                console.log("Updated highscore in localStorage:", this.score); // Debugging line
+                this.highscore = this.score; // Update the highscore in memory
+            }
+            console.log(this.highscore); // Display the highscore.
+        }
+
         // Draw images, score, and so on
         draw(context){
             this.background.draw(context);
@@ -241,4 +260,3 @@ window.addEventListener('load', function(){
 
     game.draw(ctx);
 });
-//push

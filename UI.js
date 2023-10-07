@@ -75,7 +75,8 @@ draw(context){
         context.fillText(`You ran out of health!`, this.game.width * 0.5, this.game.height * 0.5 - 20);
         context.font = this.fontSize * 0.7 + 'px ' + this.fontFamily;
         context.fillText(`Your final score is: ${this.game.score}`, this.game.width * 0.5, this.game.height * 0.5 + 20);
-        context.fillText('Press Enter or Swipe Down to Restart!', this.game.width * 0.5, this.game.height * 0.5 + 40)
+        context.fillText('Press Enter or Swipe Down to Restart!', this.game.width * 0.5, this.game.height * 0.5 + 40);
+        context.fillText(`Your highscore is ${this.game.highscore}`, this.game.width * 0.5, this.game.height * 0.5 + 60);
 
         }
         context.restore();
