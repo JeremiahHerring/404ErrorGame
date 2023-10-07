@@ -56,11 +56,10 @@ export class Walking extends State {  // Child Class (sub class)
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
         if (input.includes('ArrowDown')){
             this.game.capy.setState(states.SITTING, 0);
-        } else if (input.includes('ArrowUp'))
-        this.game.capy.setState(states.JUMPING, 1);
-        else if (input.includes(' ')) {
+        } else if (input.includes('ArrowUp')) {
+            this.game.capy.setState(states.JUMPING, 1);
+        } else if (input.includes(' ')) {
             this.game.capy.setState(states.CHARGING, 2)
-
         }
     }
 }
