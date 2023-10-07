@@ -55,6 +55,9 @@ window.addEventListener('load', function(){
     // All logic will go through class Game
     class Game {
         constructor(width, height){
+            this.isFirstPause = true;
+            this.animationId = null;
+            this.isPaused = true;
             this.width = width;
             this.height = height;
             this.groundMargin = 30;
@@ -84,8 +87,23 @@ window.addEventListener('load', function(){
             this.capy.currentState.enter(); // activate initial default state
             this.fullscreenButton = document.getElementById('fullScreenButton')
         }
+
+        togglePause() {
+            this.isPaused = !this.isPaused;
+            if (!this.isPaused && this.isFirstPause) {
+                this.isFirstPause = false;
+            }
+        
+            if (this.isPaused) {
+                cancelAnimationFrame(this.animationId); 
+                this.draw(ctx); 
+            } else {
+                this.animate(0); 
+            }
+        }
         // Run forever animation frame
         update(delta){
+            if (this.isPaused) return; 
             if (this.health === 0) this.gameOver = true;
             this.background.update();
             this.capy.update(this.input.keys, delta);
@@ -125,7 +143,8 @@ window.addEventListener('load', function(){
 
         }
         // Restart Game
-        restart(){
+        restart() {
+            this.gameOver = false;
             this.capy.restart();
             this.background.restart();
             this.mobs = [];
@@ -134,8 +153,8 @@ window.addEventListener('load', function(){
             this.hedgehogScore = 0;
             this.beeScore = 0;
             this.score = 0;
-            this.gameOver = false;
-            animate(0);
+            this.isPaused = false; // Set isPaused to false so the game isn't paused after restarting
+            this.animate(0);
         }
 
         setupButtonClick(){
@@ -182,22 +201,43 @@ window.addEventListener('load', function(){
             this.mobs.push(new FlyingMob(this));
         }
 
+        animate(time) {
+            const delta = time - lastTime;
+            lastTime = time;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            this.update(delta);
+            this.draw(ctx);
+            if (!this.gameOver) {
+                this.animationId = requestAnimationFrame(this.animate.bind(this)); // Keep track of animation frame
+            }
+        }
     }
 
     const game = new Game(canvas.width, canvas.height);
-    game.setupButtonClick = game.setupButtonClick.bind(game); // Bind the function to the game instance
+    game.setupButtonClick = game.setupButtonClick.bind(game);
 
     let lastTime = 0;
 
-    function animate(time){
-        const delta = time - lastTime; // deltaTime = how many milliseconds it takes to serve next frame (dependent on PC/Monitor)
-        lastTime = time;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        game.update(delta);
-        game.draw(ctx);
-        if (!game.gameOver) requestAnimationFrame(animate);
-        fullScreenButton.addEventListener('click', game.toggleFullScreen);
-        mobileButton.addEventListener('click', game.setupButtonClick)
-    }
-    animate(0);
+
+
+    window.addEventListener('keydown', function (event) {
+        if (event.code === 'Enter' ) {
+            event.preventDefault();
+            if (game.gameOver) {
+                game.restart();
+            } else {
+                game.togglePause();
+            }
+        }
+    });
+
+    canvas.addEventListener('click', function () {
+        game.togglePause();
+    });
+
+
+    fullScreenButton.addEventListener('click', game.toggleFullScreen);
+    mobileButton.addEventListener('click', game.setupButtonClick);
+
+    game.draw(ctx);
 });

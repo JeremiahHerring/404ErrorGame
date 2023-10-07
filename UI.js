@@ -56,7 +56,17 @@ draw(context){
     }
     drawBar("health");
     drawBar("energy");    
+    if (this.game.isPaused && !this.game.gameOver) {
+        context.textAlign = 'center';
+        context.font = this.fontSize * 2 + 'px ' + this.fontFamily;
+    
+        if (this.game.isFirstPause) {
+            context.fillText('Press Enter or Tap to Start', this.game.width / 2, this.game.height / 2 - 20);
+        } else {
+            context.fillText('Press Enter or Tap to start/pause', this.game.width / 2, this.game.height / 2 + 20);
+        }
 
+    }
     // game over
     if (this.game.gameOver){
         context.textAlign = 'center';
