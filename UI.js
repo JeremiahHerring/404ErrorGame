@@ -65,6 +65,7 @@ draw(context){
         } else {
             context.fillText('Press Enter or Tap to start/pause', this.game.width / 2, this.game.height / 2 + 20);
         }
+        //made pause
 
     }
     // game over
