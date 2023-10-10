@@ -225,7 +225,6 @@ window.addEventListener('load', function(){
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             this.update(delta);
             this.draw(ctx);
-            this.UI.draw(ctx);
             if (!this.gameOver) {
                 this.animationId = requestAnimationFrame(this.animate.bind(this)); // Keep track of animation frame
             }
