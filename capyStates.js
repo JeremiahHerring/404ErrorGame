@@ -126,7 +126,6 @@ export class Charging extends State {  // Child Class (sub class)
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
         if (!input.includes(' ') && this.game.capy.onGround()){
             this.game.capy.setState(states.WALKING, 1);
-            this.game.capy.y = 427.5;
         } else if (!input.includes(' ') && !this.game.capy.onGround()){
             this.game.capy.setState(states.FALLING, 1);
         } else if (input.includes(' ') && input.includes('ArrowUp') && this.game.capy.onGround()) {

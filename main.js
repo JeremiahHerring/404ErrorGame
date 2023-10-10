@@ -131,22 +131,22 @@ window.addEventListener('load', function(){
             this.particles.forEach((particle, index) => {
                 particle.update();
             })
-        if (this.particles.length > this.maxParticles) {
-            // Slice returns a portion of an array where start and end 
-            // represent the index of items in that array. 
-            this.particles.length = this.maxParticles;
+            if (this.particles.length > this.maxParticles) {
+                // Slice returns a portion of an array where start and end 
+                // represent the index of items in that array. 
+                this.particles.length = this.maxParticles;
+            }
+            // Handle collision boom
+            this.collisions.forEach((collision, index) => {
+                collision.update(delta);
+            })
+            // Using filter instead of splice for performance purposes
+            this.mobs = this.mobs.filter(mob => !mob.markedForDeletion);
+            this.floatingText = this.floatingText.filter(text => !text.markedForDeletion);
+            this.particles = this.particles.filter(particle => !particle.markedForDeletion);
+            this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);
         }
-        // Handle collision boom
-        this.collisions.forEach((collision, index) => {
-            collision.update(delta);
-        })
-        // Using filter instead of splice for performance purposes
-        this.mobs = this.mobs.filter(mob => !mob.markedForDeletion);
-        this.floatingText = this.floatingText.filter(text => !text.markedForDeletion);
-        this.particles = this.particles.filter(particle => !particle.markedForDeletion);
-        this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);
-
-        }
+        
         // Restart Game
         restart() {
             this.gameOver = false;
@@ -162,9 +162,9 @@ window.addEventListener('load', function(){
             this.animate(0);
         }
 
-        setupButtonClick(){
+        setupButtonClick() {
             this.capy.mobileJump();
-            };
+        }
 
         toggleFullScreen(){
             // document.fullScreenElement is a built in read only property ona document object that returns the element that is currently being presented in full screen mode.
@@ -211,9 +211,8 @@ window.addEventListener('load', function(){
             this.floatingText.forEach(text => {
                 text.draw(context); 
             })
-            
-    this.UI.draw(context);
-}
+            this.UI.draw(context);
+        }
         addMob(){
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
             if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this));
@@ -257,6 +256,6 @@ window.addEventListener('load', function(){
 
     fullScreenButton.addEventListener('click', game.toggleFullScreen);
     mobileButton.addEventListener('click', game.setupButtonClick);
-
+    
     game.draw(ctx);
 });
