@@ -52,6 +52,16 @@ window.addEventListener('load', function(){
     canvas.width = 1000;
     canvas.height = 550;
 
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    if (isMobile) {
+        // Mobile-specific code or adjustments
+        // For example, you can change the game canvas size for mobile
+        const canvas = document.getElementById('game-canvas');
+        canvas.width = 200
+        canvas.height = 100;
+
+    } else {
     // All logic will go through class Game
     class Game {
         constructor(width, height){
@@ -237,8 +247,7 @@ window.addEventListener('load', function(){
 
     let lastTime = 0;
 
-
-
+    
     window.addEventListener('keydown', function (event) {
         if (event.code === 'Enter' ) {
             event.preventDefault();
@@ -257,6 +266,7 @@ window.addEventListener('load', function(){
 
     fullScreenButton.addEventListener('click', game.toggleFullScreen);
     mobileButton.addEventListener('click', game.setupButtonClick);
-
+    
     game.draw(ctx);
+}
 });

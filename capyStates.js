@@ -39,7 +39,7 @@ export class Sitting extends State {  // Child Class (sub class)
         }
     }
 }
-// each row is 1.5 so if you want to a specific row then do h
+// each row is 1.5 so if you want to a specific row then do it
 export class Walking extends State {  // Child Class (sub class)
     constructor(game){
         super('WALKING', game)        
@@ -58,7 +58,7 @@ export class Walking extends State {  // Child Class (sub class)
             this.game.capy.setState(states.SITTING, 0);
         } else if (input.includes('ArrowUp')) {
             this.game.capy.setState(states.JUMPING, 1);
-        } else if (input.includes(' ')) {
+        } else if (input.includes(' ') && this.game.capy.onGround()) {
             this.game.capy.setState(states.CHARGING, 2)
         }
     }
@@ -126,7 +126,6 @@ export class Charging extends State {  // Child Class (sub class)
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
         if (!input.includes(' ') && this.game.capy.onGround()){
             this.game.capy.setState(states.WALKING, 1);
-            this.game.capy.y = 427.5;
         } else if (!input.includes(' ') && !this.game.capy.onGround()){
             this.game.capy.setState(states.FALLING, 1);
         } else if (input.includes(' ') && input.includes('ArrowUp') && this.game.capy.onGround()) {

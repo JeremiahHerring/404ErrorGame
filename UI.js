@@ -67,7 +67,7 @@ draw(context){
             context.font = this.fontSize * 0.8
             context.fillText('Press Enter or Tap to Start/Pause', this.game.width / 2, this.game.height / 2 + 20);
         }
-        //made pause
+        
 
     }
     // game over
