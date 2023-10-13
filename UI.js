@@ -55,7 +55,8 @@ draw(context){
         if (this.game[type] === 6) context.drawImage(images.bars, 51, yDist, 6, 18, 65 + barX, -14, 18, 60);
     }
     drawBar("health");
-    drawBar("energy");    
+    drawBar("energy");
+    
     if (this.game.isPaused && !this.game.gameOver) {
         context.textAlign = 'center';
         context.font = this.fontSize * 2 + 'px ' + this.fontFamily;
