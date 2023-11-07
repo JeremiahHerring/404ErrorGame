@@ -58,7 +58,7 @@ export class Walking extends State {  // Child Class (sub class)
             this.game.capy.setState(states.SITTING, 0);
         } else if (input.includes('ArrowUp')) {
             this.game.capy.setState(states.JUMPING, 1);
-        } else if (input.includes(' ') && this.game.capy.onGround()) {
+        } else if (input.includes(' ') && this.game.capy.onGround() && this.game.energy > 0) {
             this.game.capy.setState(states.CHARGING, 2)
         }
     }
@@ -80,7 +80,7 @@ export class Jumping extends State {  // Child Class (sub class)
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
         if (this.game.capy.speedY > this.game.capy.gravity){
             this.game.capy.setState(states.FALLING, 1);
-        } else if (input.includes(' ')) {
+        } else if (input.includes(' ') && this.game.energy > 0) {
             this.game.capy.setState(states.CHARGING, 2)
         } else if (input.includes('ArrowDown')) {
             this.game.capy.setState(states.SLAMMING, 0)
@@ -128,6 +128,7 @@ export class Charging extends State {  // Child Class (sub class)
         // .unshift() adds one or more elements to the beginning of an array & returns the new length of array
         this.game.particles.unshift(new Fire(this.game, this.game.capy.x + this.game.capy.width * 0.5, this.game.capy.y + this.game.capy.height));
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
+        if (this.game.energy === 0) this.game.capy.setState(states.WALKING, 1)
         if (!input.includes(' ') && this.game.capy.onGround()){
             this.game.capy.setState(states.WALKING, 1);
         } else if (!input.includes(' ') && !this.game.capy.onGround()){
@@ -161,7 +162,7 @@ export class Slamming extends State {  // Child Class (sub class)
             for (let i = 0; i < 30; i++)
             this.game.particles.unshift(new AOE(this.game, this.game.capy.x + this.game.capy.width * 0.5, this.game.capy.y + this.game.capy.height));
             this.game.capy.y = 427.5;
-        } else if (input.includes(' ') && !this.game.capy.onGround()){
+        } else if (input.includes(' ') && !this.game.capy.onGround() && this.game.energy > 0){
             this.game.capy.setState(states.CHARGING, 2);
         } 
     }
