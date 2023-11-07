@@ -50,7 +50,7 @@ draw(context){
         const barWidth = 32;
         let frameNum = Math.max(0, 6 - this.game[type]);
         let frame = frameNum * barWidth;
-        if (this.game[type] < 6) frame-= barWidth;
+        if (this.game[type] < 6) frame -= barWidth;
         context.drawImage(images.bars, 64 + frame, yDist, 31, 18, barX, -14, 96, 60);  
         if (this.game[type] === 6) context.drawImage(images.bars, 51, yDist, 6, 18, 65 + barX, -14, 18, 60);
     }
