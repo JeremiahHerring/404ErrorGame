@@ -87,7 +87,9 @@ window.addEventListener('load', function(){
             this.debug = false;
             this.gameOver = false;
             this.health = 6;
-            this.energy = 0;
+            this.energy = 6;
+            this.energyInc = 1200;
+            this.engeryDec = false;
             this.score = 0;
             this.highscore = localStorage.getItem("highscore")
             this.hedgehogScore = 0;
@@ -114,6 +116,7 @@ window.addEventListener('load', function(){
         }
         // Run forever animation frame
         update(delta){
+            this.energyDec = false;
             if (this.isPaused) return; 
             if (this.health === 0) this.gameOver = true;
             if (this.gameOver) {
@@ -155,6 +158,9 @@ window.addEventListener('load', function(){
             this.floatingText = this.floatingText.filter(text => !text.markedForDeletion);
             this.particles = this.particles.filter(particle => !particle.markedForDeletion);
             this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);
+            if (this.energyInc <= 1200) this.energyInc += 1
+            if (this.energyInc % 200 === 0 && !this.energyDec) {this.energy += 1}
+
         }
         
         // Restart Game
@@ -265,7 +271,7 @@ window.addEventListener('load', function(){
 
     fullScreenButton.addEventListener('click', game.toggleFullScreen);
     mobileButton.addEventListener('click', game.setupButtonClick);
-    
+
     game.draw(ctx);
 }
 });

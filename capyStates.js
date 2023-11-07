@@ -112,7 +112,6 @@ export class Falling extends State {  // Child Class (sub class)
 export class Charging extends State {  // Child Class (sub class)
     constructor(game){
         super('CHARGING', game)        
-
     }
     enter(){
         this.game.capy.frameX = 0;
@@ -121,6 +120,11 @@ export class Charging extends State {  // Child Class (sub class)
     }
     // Switch the game.capy into different states
     handleInput(input){
+        this.energyDec = true;
+        if (this.game.energyInc >= 5) this.game.energyInc -= 5
+        if (this.game.energyInc % 200 === 0) {
+            if (this.game.energy > 0) this.game.energy -= 1;
+        }
         // .unshift() adds one or more elements to the beginning of an array & returns the new length of array
         this.game.particles.unshift(new Fire(this.game, this.game.capy.x + this.game.capy.width * 0.5, this.game.capy.y + this.game.capy.height));
         // While a game.capy is in a certain state, it will only react to a certain amount of inputs
