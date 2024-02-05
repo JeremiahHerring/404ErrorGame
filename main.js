@@ -43,7 +43,11 @@ function determineImageSubFolder(imageName) {
 }
 export {images};
 
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
 
+export { isMobileDevice }
 // LOAD event: Javascript waits for all dependent resources such as stylsheets 
 // and images to be fully loaded and available before it runs
 window.addEventListener('load', function(){
@@ -52,16 +56,7 @@ window.addEventListener('load', function(){
     canvas.width = 1000;
     canvas.height = 550;
 
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    if (isMobile) {
-        // Mobile-specific code or adjustments
-        // For example, you can change the game canvas size for mobile
-        const canvas = document.getElementById('game-canvas');
-        canvas.width = 200
-        canvas.height = 100;
-
-    } else {
+   
     // All logic will go through class Game
     class Game {
         constructor(width, height){
@@ -98,7 +93,6 @@ window.addEventListener('load', function(){
             this.hudHeight = 50;
             this.capy.currentState = this.capy.states[0]; // points to index within this.states
             this.capy.currentState.enter(); // activate initial default state
-            this.fullscreenButton = document.getElementById('fullScreenButton')
         }
 
         togglePause() {
@@ -121,7 +115,6 @@ window.addEventListener('load', function(){
             if (this.health === 0) this.gameOver = true;
             if (this.gameOver) {
                 this.displayHighScore();
-                console.log("this is working"); 
             }
             this.background.update();
             this.capy.update(this.input.keys, delta);
@@ -182,30 +175,14 @@ window.addEventListener('load', function(){
             this.capy.mobileJump();
         }
 
-        toggleFullScreen(){
-            // document.fullScreenElement is a built in read only property ona document object that returns the element that is currently being presented in full screen mode.
-            // If null full screen is not active
-            console.log(document.fullScreenElement);
-            if (!document.fullscreenElement) {
-                //.requestFullscreen() is asynchronous, returns a promise
-                canvas.requestFullscreen().catch(err => {
-                    alert(`Error, can't enable full-screen mode: ${err.message}`);
-                }); 
-            } else {
-                    document.exitFullscreen();
-                }
-            }
-
         // Handle Local High Score
         displayHighScore() {
             // Retrieve the highscore from localStorage and convert it to a number
             this.highscore = parseInt(localStorage.getItem("highscore"), 10) || 0;
-            console.log("Retrieved highscore:", this.highscore); // Debugging line
         
             if (this.gameOver && (this.highscore === 0 || this.score >= this.highscore)) {
                 // Update the highscore if it's the first time or if the current score is higher
                 localStorage.setItem("highscore", this.score.toString()); // Convert this.score to a string before storing
-                console.log("Updated highscore in localStorage:", this.score); // Debugging line
                 this.highscore = this.score; // Update the highscore in memory
             }
             console.log(this.highscore); // Display the highscore.
@@ -230,11 +207,17 @@ window.addEventListener('load', function(){
             this.UI.draw(context);
         }
         addMob(){
-            if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
-            if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new Wizard(this));
+            
+            if (!isMobileDevice) {
             this.mobs.push(new FlyingMob(this));
+            if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new Wizard(this));
+            if (this.speed > 0 && Math.random() < 1) this.mobs.push(new GroundMob(this), new Hedgehog(this));
+            }
+            if (isMobileDevice) {
+                if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
+            }
         }
-
+            
         animate(time) {
             const delta = time - lastTime;
             lastTime = time;
@@ -269,9 +252,9 @@ window.addEventListener('load', function(){
     });
 
 
-    fullScreenButton.addEventListener('click', game.toggleFullScreen);
     mobileButton.addEventListener('click', game.setupButtonClick);
 
     game.draw(ctx);
 }
-});
+);
+

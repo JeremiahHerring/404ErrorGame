@@ -1,4 +1,5 @@
 import { images } from './main.js';
+import { isMobileDevice } from './main.js'
 
 class Mob {
     constructor(){
@@ -67,7 +68,7 @@ export class GroundMob {
         this.x = this.game.width;
         this.y = this.game.height - this.height - this.game.groundMargin;
         this.image = images.wolfImage;
-        this.speedX = -0.5;
+        this.speedX = isMobileDevice() ? -0.1: -0.5;
         this.speedY = 0;
         this.maxFrame = 4;
         this.fps = 20;
