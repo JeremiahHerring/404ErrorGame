@@ -1,3 +1,6 @@
+import { images } from './main.js';
+import { isMobileDevice } from './main.js'
+
 class Mob {
     constructor(){
         this.frameX = 0;
@@ -22,6 +25,7 @@ class Mob {
         if (this.x + this.width < 0) this.markedForDeletion = true;
     }
     draw(context){
+        context.strokeStyle = 'rgba(0, 0, 0, 0)';
         if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this. height)
         context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
     }
@@ -39,7 +43,7 @@ export class FlyingMob extends Mob {
         this.speedX = Math.random() + 1;
         this.speedY = 0;
         this.maxFrame = 2.5;
-        this.image = document.getElementById('bee')
+        this.image = images.beeImage;
         // Move the flying enemies up and down as they move
         this.angle = 0;
         this.angleValue = Math.random() * 0.1 + 0.1;
@@ -63,8 +67,8 @@ export class GroundMob {
         this.height = 51;
         this.x = this.game.width;
         this.y = this.game.height - this.height - this.game.groundMargin;
-        this.image = document.getElementById('wolf-reverse');
-        this.speedX = -0.5;
+        this.image = images.wolfImage;
+        this.speedX = isMobileDevice() ? -0.1: -0.5;
         this.speedY = 0;
         this.maxFrame = 4;
         this.fps = 20;
@@ -89,6 +93,7 @@ export class GroundMob {
     }
 
 draw(context){
+    context.strokeStyle = 'rgba(0, 0, 0, 0)';
     if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this. height)
     context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
 }
@@ -103,7 +108,7 @@ export class Hedgehog extends Mob {
         this.height = 25;
         this.x = this.game.width;
         this.y = this.game.height - this.height - this.game.groundMargin;
-        this.image = document.getElementById('hedgehog-reverse');
+        this.image = images.hedgehogImage;
         this.speedX = -1.5
         this.speedY = 0;
         this.maxFrame = 5;
@@ -127,6 +132,7 @@ export class Hedgehog extends Mob {
     if (this.x + this.width < 0) this.markedForDeletion = true;
    }
     draw(context) {
+    context.strokeStyle = 'rgba(0, 0, 0, 0)';
     if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this. height)
     context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
     }
@@ -145,7 +151,7 @@ export class Wizard extends Mob{
         this.speedX = 0.3;
         this.speedY = 0;
         this.maxFrame = 9;
-        this.image = document.getElementById('wizard-idle')
+        this.image = images.wizardImage;
 
     }
     update(delta){
@@ -163,6 +169,7 @@ export class Wizard extends Mob{
         if (this.x + this.width < 0) this.markedForDeletion = true;
     }
     draw(context){
+        context.strokeStyle = 'rgba(0, 0, 0, 0)';
         if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this. height)
         context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
     }
