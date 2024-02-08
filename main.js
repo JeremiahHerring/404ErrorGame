@@ -208,13 +208,13 @@ window.addEventListener('load', function(){
         }
         addMob(){
             
-            if (!isMobileDevice) {
+            if (isMobileDevice()) {
+                this.mobs.push(new FlyingMob(this));
+                if (this.speed > 0 && Math.random() < 0.3) this.mobs.push(new GroundMob(this), new Hedgehog(this));
+            } else {
             this.mobs.push(new FlyingMob(this));
             if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new Wizard(this));
             if (this.speed > 0 && Math.random() < 1) this.mobs.push(new GroundMob(this), new Hedgehog(this));
-            }
-            if (isMobileDevice) {
-                if (this.speed > 0 && Math.random() < 0.5) this.mobs.push(new GroundMob(this), new Hedgehog(this));
             }
         }
             
